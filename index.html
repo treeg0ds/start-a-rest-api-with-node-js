@@ -1,5 +1,160 @@
 <!DOCTYPE html>
-<html>
-<head><title>Test</title></head>
-<body><h1>Hello World</h1></body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskPulse — Modern Task & Goal Tracker</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-top">
+        <div class="brand">
+          <div class="brand-icon">⚡</div>
+          <div>
+            <h1>TaskPulse</h1>
+            <p class="subtitle">Clean, modular task & productivity dashboard</p>
+          </div>
+        </div>
+        <span class="badge-tag">35 Tests Passing ✔</span>
+      </div>
+    </header>
+
+    <!-- Metrics & Progress Overview -->
+    <section class="stats-grid" aria-label="Task Statistics">
+      <div class="stat-card">
+        <span class="stat-label">Total</span>
+        <span class="stat-value" id="statTotal">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Active</span>
+        <span class="stat-value" id="statActive">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Completed</span>
+        <span class="stat-value" id="statCompleted">0</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Completion</span>
+        <span class="stat-value" id="statRate">0%</span>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-header">
+          <span>Overall Progress</span>
+          <span id="progressText">0 of 0 completed (0%)</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- New Task Creation Form -->
+    <section class="card" aria-label="Create Task">
+      <form id="taskForm" class="task-form">
+        <input
+          type="text"
+          id="taskTitle"
+          placeholder="What needs to be done? (e.g. Write integration tests)"
+          required
+          maxlength="120"
+          autocomplete="off"
+        />
+
+        <textarea
+          id="taskDesc"
+          placeholder="Optional notes or details..."
+          maxlength="500"
+        ></textarea>
+
+        <div class="form-row">
+          <select id="taskPriority" aria-label="Task Priority">
+            <option value="low">Priority: Low</option>
+            <option value="medium" selected>Priority: Medium</option>
+            <option value="high">Priority: High</option>
+          </select>
+
+          <select id="taskCategory" aria-label="Task Category">
+            <option value="general" selected>Category: General</option>
+            <option value="work">Category: Work</option>
+            <option value="personal">Category: Personal</option>
+            <option value="study">Category: Study</option>
+          </select>
+
+          <input
+            type="date"
+            id="taskDueDate"
+            aria-label="Due Date"
+          />
+
+          <button type="submit" class="btn btn-primary">
+            + Add Task
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Tasks List & Controls -->
+    <main class="card" aria-label="Task List">
+      <div class="toolbar">
+        <div class="toolbar-controls">
+          <div class="filter-pills" role="tablist" aria-label="Filter by Status">
+            <button class="filter-pill active" data-status="all">All</button>
+            <button class="filter-pill" data-status="active">Active</button>
+            <button class="filter-pill" data-status="completed">Completed</button>
+          </div>
+
+          <div class="filter-selects">
+            <select id="categoryFilter" aria-label="Filter by category">
+              <option value="all">All Categories</option>
+              <option value="work">Work</option>
+              <option value="personal">Personal</option>
+              <option value="study">Study</option>
+              <option value="general">General</option>
+            </select>
+
+            <select id="priorityFilter" aria-label="Filter by priority">
+              <option value="all">All Priorities</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+
+            <select id="sortBySelect" aria-label="Sort tasks">
+              <option value="createdAt">Sort: Created Date</option>
+              <option value="dueDate">Sort: Due Date</option>
+              <option value="priority">Sort: Priority</option>
+              <option value="title">Sort: Title (A-Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search tasks by keyword..."
+            autocomplete="off"
+          />
+        </div>
+      </div>
+
+      <!-- Task Items Container -->
+      <div id="taskList" class="task-list"></div>
+
+      <!-- Footer Actions -->
+      <div class="footer-actions">
+        <span id="activeCountLabel">0 active tasks</span>
+        <button id="clearCompletedBtn" class="btn btn-secondary btn-sm">
+          Clear Completed
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
 </html>
