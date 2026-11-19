@@ -100,6 +100,54 @@
       "created_at": "2026-11-17T07:47:46.387Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "15214de6-6716-4fde-be1a-29a08fae55e3",
+      "role": "user",
+      "content": "+──────────────────────────────────────────────────────────────────────────+\n| 1. Presentation Layer (UI Controller)                                    |\n|    Files: js/app.js, index.html, css/styles.css                          |\n+───────────────────────────────────┬──────────────────────────────────────+\n                                    │ Boundary 1: User Actions & View Models\n                                    ▼\n+──────────────────────────────────────────────────────────────────────────+\n| 2. Application Service Layer                                             |\n|    Files: src/services/taskManager.js                                    |\n+───────────────────┬───────────────────────────────────┬──────────────────+\n                    │ Boundary 2: Domain Entity Rules   │ Boundary 3: Storage SPI\n                    ▼                                   ▼\n+──────────────────────────────────────+  +────────────────────────────────+\n| 3. Domain Model Layer                |  | 4. Infrastructure Layer        |\n|    Files: src/models/task.js         |  |    Files: src/storage/storage.js|\n+──────────────────────────────────────+  +────────────────────────────────+",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:46:45.212Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "dae727ca-945a-4d19-a1a9-f17d7405c6c0",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "15214de6-6716-4fde-be1a-29a08fae55e3",
+      "created_at": "2026-11-19T14:46:50.025Z",
+      "sender": "macOS",
+      "is_cancelled": false
+    },
+    {
+      "id": "c7299741-4c02-46c0-97de-5335f27c63e1",
+      "role": "user",
+      "content": "+──────────────────────────────────────────────────────────────────────────+\n| 1. Presentation Layer (UI Controller)                                    |\n|    Files: js/app.js, index.html, css/styles.css                          |\n+───────────────────────────────────┬──────────────────────────────────────+\n                                    │ Boundary 1: User Actions & View Models\n                                    ▼\n+──────────────────────────────────────────────────────────────────────────+\n| 2. Application Service Layer                                             |\n|    Files: src/services/taskManager.js                                    |\n+───────────────────┬───────────────────────────────────┬──────────────────+\n                    │ Boundary 2: Domain Entity Rules   │ Boundary 3: Storage SPI\n                    ▼                                   ▼\n+──────────────────────────────────────+  +────────────────────────────────+\n| 3. Domain Model Layer                |  | 4. Infrastructure Layer        |\n|    Files: src/models/task.js         |  |    Files: src/storage/storage.js|\n+──────────────────────────────────────+  +────────────────────────────────+",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:46:57.235Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "03a42655-106c-45d8-961c-e3edc3eb900d",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "c7299741-4c02-46c0-97de-5335f27c63e1",
+      "created_at": "2026-11-19T14:46:59.153Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
