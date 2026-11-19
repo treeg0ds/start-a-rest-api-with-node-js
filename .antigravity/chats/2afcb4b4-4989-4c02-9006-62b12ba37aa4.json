@@ -220,6 +220,126 @@
       "created_at": "2026-11-19T14:49:03.268Z",
       "sender": "macOS",
       "is_cancelled": false
+    },
+    {
+      "id": "baf9a60e-6398-4d0d-b950-230acf9e4234",
+      "role": "user",
+      "content": "import { TaskManager } from './src/services/taskManager.js';\nimport { MemoryStorageAdapter } from './src/storage/storage.js';\n\nconst manager = new TaskManager(new MemoryStorageAdapter());\nconst task = manager.addTask({ title: 'Deploy release', priority: 'high', category: 'work' });\nmanager.toggleTask(task.id);\nconsole.log(manager.getStats().completionRate); // 100",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:49:06.650Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "f21207d2-1fdc-419f-b174-4a10d7053484",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "baf9a60e-6398-4d0d-b950-230acf9e4234",
+      "created_at": "2026-11-19T14:49:10.232Z",
+      "sender": "macOS",
+      "is_cancelled": false
+    },
+    {
+      "id": "347ea93f-1a6c-441a-a5bc-1dde5acfc9a8",
+      "role": "user",
+      "content": "import { describe, it } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { MemoryStorageAdapter, LocalStorageAdapter } from '../src/storage/storage.js';\n\ndescribe('Storage Adapters', () => {\n  describe('MemoryStorageAdapter', () => {\n    it('initializes with empty array or supplied data', () => {\n      const adapter1 = new MemoryStorageAdapter();\n      assert.deepStrictEqual(adapter1.loadTasks(), []);\n\n      const adapter2 = new MemoryStorageAdapter([{ id: '1', title: 'Preloaded' }]);\n      assert.strictEqual(adapter2.loadTasks().length, 1);\n    });\n\n    it('prevents external mutation of internal data', () => {\n      const adapter = new MemoryStorageAdapter([{ id: '1', title: 'Original' }]);\n      const loaded = adapter.loadTasks();\n      loaded[0].title = 'Mutated Externally';\n\n      assert.strictEqual(adapter.loadTasks()[0].title, 'Original');\n    });\n\n    it('saves and clears tasks properly', () => {\n      const adapter = new MemoryStorageAdapter();\n      adapter.saveTasks([{ id: '2', title: 'Saved' }]);\n      assert.strictEqual(adapter.loadTasks().length, 1);\n\n      adapter.clear();\n      assert.strictEqual(adapter.loadTasks().length, 0);\n    });\n\n    it('rejects saving non-array data', () => {\n      const adapter = new MemoryStorageAdapter();\n      assert.throws(() => adapter.saveTasks('not-an-array'), /Tasks to save must be an array/);\n      assert.throws(() => adapter.saveTasks(null), /Tasks to save must be an array/);\n    });\n  });\n\n  describe('LocalStorageAdapter', () => {\n    it('handles environments where localStorage is not defined', () => {\n      // In Node.js environment without browser mocks\n      const adapter = new LocalStorageAdapter('test_key');\n      assert.deepStrictEqual(adapter.loadTasks(), []);\n      assert.strictEqual(adapter.saveTasks([]), false);\n      assert.doesNotThrow(() => adapter.clear());\n    });\n\n    it('interacts with global localStorage when available', () => {\n      const storageMock = new Map();\n      globalThis.localStorage = {\n        getItem: (key) => storageMock.get(key) || null,\n        setItem: (key, val) => storageMock.set(key, String(val)),\n        removeItem: (key) => storageMock.delete(key),\n      };\n\n      try {\n        const adapter = new LocalStorageAdapter('my_tasks');\n        assert.deepStrictEqual(adapter.loadTasks(), []);\n\n        const sample = [{ id: '1', title: 'Browser Task' }];\n        const saved = adapter.saveTasks(sample);\n        assert.strictEqual(saved, true);\n\n        const loaded = adapter.loadTasks();\n        assert.deepStrictEqual(loaded, sample);\n\n        adapter.clear();\n        assert.deepStrictEqual(adapter.loadTasks(), []);\n      } finally {\n        delete globalThis.localStorage;\n      }\n    });\n\n    it('safely recovers from corrupted localStorage JSON without throwing', () => {\n      globalThis.localStorage = {\n        getItem: () => '{{{invalid-json...',\n        setItem: () => {},\n        removeItem: () => {},\n      };\n\n      try {\n        const adapter = new LocalStorageAdapter('corrupt_key');\n        const tasks = adapter.loadTasks();\n        assert.deepStrictEqual(tasks, [], 'Should recover with empty array on parse error');\n      } finally {\n        delete globalThis.localStorage;\n      }\n    });\n  });\n});",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:50:03.276Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "1fb0082b-7a76-40f6-977d-404a7fe1843b",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "347ea93f-1a6c-441a-a5bc-1dde5acfc9a8",
+      "created_at": "2026-11-19T14:50:05.226Z",
+      "sender": "macOS",
+      "is_cancelled": false
+    },
+    {
+      "id": "d545b33a-6cfc-42b3-bcca-435d3548adff",
+      "role": "user",
+      "content": "import { describe, it } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { MemoryStorageAdapter, LocalStorageAdapter } from '../src/storage/storage.js';\n\ndescribe('Storage Adapters', () => {\n  describe('MemoryStorageAdapter', () => {\n    it('initializes with empty array or supplied data', () => {\n      const adapter1 = new MemoryStorageAdapter();\n      assert.deepStrictEqual(adapter1.loadTasks(), []);\n\n      const adapter2 = new MemoryStorageAdapter([{ id: '1', title: 'Preloaded' }]);\n      assert.strictEqual(adapter2.loadTasks().length, 1);\n    });\n\n    it('prevents external mutation of internal data', () => {\n      const adapter = new MemoryStorageAdapter([{ id: '1', title: 'Original' }]);\n      const loaded = adapter.loadTasks();\n      loaded[0].title = 'Mutated Externally';\n\n      assert.strictEqual(adapter.loadTasks()[0].title, 'Original');\n    });\n\n    it('saves and clears tasks properly', () => {\n      const adapter = new MemoryStorageAdapter();\n      adapter.saveTasks([{ id: '2', title: 'Saved' }]);\n      assert.strictEqual(adapter.loadTasks().length, 1);\n\n      adapter.clear();\n      assert.strictEqual(adapter.loadTasks().length, 0);\n    });\n\n    it('rejects saving non-array data', () => {\n      const adapter = new MemoryStorageAdapter();\n      assert.throws(() => adapter.saveTasks('not-an-array'), /Tasks to save must be an array/);\n      assert.throws(() => adapter.saveTasks(null), /Tasks to save must be an array/);\n    });\n  });\n\n  describe('LocalStorageAdapter', () => {\n    it('handles environments where localStorage is not defined', () => {\n      // In Node.js environment without browser mocks\n      const adapter = new LocalStorageAdapter('test_key');\n      assert.deepStrictEqual(adapter.loadTasks(), []);\n      assert.strictEqual(adapter.saveTasks([]), false);\n      assert.doesNotThrow(() => adapter.clear());\n    });\n\n    it('interacts with global localStorage when available', () => {\n      const storageMock = new Map();\n      globalThis.localStorage = {\n        getItem: (key) => storageMock.get(key) || null,\n        setItem: (key, val) => storageMock.set(key, String(val)),\n        removeItem: (key) => storageMock.delete(key),\n      };\n\n      try {\n        const adapter = new LocalStorageAdapter('my_tasks');\n        assert.deepStrictEqual(adapter.loadTasks(), []);\n\n        const sample = [{ id: '1', title: 'Browser Task' }];\n        const saved = adapter.saveTasks(sample);\n        assert.strictEqual(saved, true);\n\n        const loaded = adapter.loadTasks();\n        assert.deepStrictEqual(loaded, sample);\n\n        adapter.clear();\n        assert.deepStrictEqual(adapter.loadTasks(), []);\n      } finally {\n        delete globalThis.localStorage;\n      }\n    });\n\n    it('safely recovers from corrupted localStorage JSON without throwing', () => {\n      globalThis.localStorage = {\n        getItem: () => '{{{invalid-json...',\n        setItem: () => {},\n        removeItem: () => {},\n      };\n\n      try {\n        const adapter = new LocalStorageAdapter('corrupt_key');\n        const tasks = adapter.loadTasks();\n        assert.deepStrictEqual(tasks, [], 'Should recover with empty array on parse error');\n      } finally {\n        delete globalThis.localStorage;\n      }\n    });\n  });\n});",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:50:23.007Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "d87dbb61-44ff-42eb-8ce0-64bf548b8da8",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "d545b33a-6cfc-42b3-bcca-435d3548adff",
+      "created_at": "2026-11-19T14:50:25.176Z",
+      "sender": "macOS",
+      "is_cancelled": false
+    },
+    {
+      "id": "fa4b13b5-6ab7-4af1-aec4-5eb83c79afa8",
+      "role": "user",
+      "content": "import { describe, it, beforeEach } from 'node:test';\nimport assert from 'node:assert/strict';\nimport { TaskManager } from '../src/services/taskManager.js';\nimport { MemoryStorageAdapter } from '../src/storage/storage.js';\n\ndescribe('TaskManager Service', () => {\n  let manager;\n  let storage;\n\n  beforeEach(() => {\n    storage = new MemoryStorageAdapter();\n    manager = new TaskManager(storage);\n  });\n\n  describe('CRUD operations', () => {\n    it('creates a task and persists it', () => {\n      const task = manager.addTask({ title: 'Deploy App', priority: 'high', category: 'work' });\n\n      assert.ok(task.id);\n      assert.strictEqual(task.title, 'Deploy App');\n      assert.strictEqual(task.priority, 'high');\n      assert.strictEqual(task.category, 'work');\n      assert.strictEqual(manager.tasks.length, 1);\n\n      // Verify persistence in storage adapter\n      const stored = storage.loadTasks();\n      assert.strictEqual(stored.length, 1);\n      assert.strictEqual(stored[0].id, task.id);\n    });\n\n    it('retrieves task by ID', () => {\n      const task = manager.addTask({ title: 'Read Docs' });\n      const found = manager.getTask(task.id);\n\n      assert.deepStrictEqual(found, task);\n      assert.strictEqual(manager.getTask('non-existent-id'), null);\n      assert.strictEqual(manager.getTask(''), null);\n      assert.strictEqual(manager.getTask(null), null);\n    });\n\n    it('updates an existing task while preserving ID and createdAt', () => {\n      const created = manager.addTask({ title: 'Original Title', priority: 'low' });\n      const originalCreatedAt = created.createdAt;\n\n      const updated = manager.updateTask(created.id, {\n        title: 'Updated Title',\n        priority: 'high',\n        id: 'hacker-attempt-id',\n        createdAt: '2020-01-01T00:00:00.000Z',\n      });\n\n      assert.strictEqual(updated.id, created.id);\n      assert.strictEqual(updated.createdAt, originalCreatedAt);\n      assert.strictEqual(updated.title, 'Updated Title');\n      assert.strictEqual(updated.priority, 'high');\n      assert.notStrictEqual(updated.updatedAt, created.updatedAt);\n    });\n\n    it('throws when updating nonexistent task', () => {\n      assert.throws(\n        () => manager.updateTask('missing-id', { title: 'Test' }),\n        /Task with id 'missing-id' not found/\n      );\n    });\n\n    it('toggles task completion and tracks completedAt', () => {\n      const task = manager.addTask({ title: 'Toggle test' });\n      assert.strictEqual(task.completed, false);\n      assert.strictEqual(task.completedAt, null);\n\n      const completed = manager.toggleTask(task.id);\n      assert.strictEqual(completed.completed, true);\n      assert.ok(completed.completedAt);\n\n      const uncompleted = manager.toggleTask(task.id);\n      assert.strictEqual(uncompleted.completed, false);\n      assert.strictEqual(uncompleted.completedAt, null);\n    });\n\n    it('deletes a task by ID', () => {\n      const task = manager.addTask({ title: 'To Delete' });\n      assert.strictEqual(manager.tasks.length, 1);\n\n      const deleted = manager.deleteTask(task.id);\n      assert.strictEqual(deleted, true);\n      assert.strictEqual(manager.tasks.length, 0);\n      assert.strictEqual(manager.getTask(task.id), null);\n\n      // Deleting again should return false\n      assert.strictEqual(manager.deleteTask(task.id), false);\n    });\n  });\n\n  describe('Filtering and Searching', () => {\n    beforeEach(() => {\n      manager.addTask({ title: 'Buy Groceries', category: 'personal', priority: 'low', completed: true });\n      manager.addTask({ title: 'Fix Bug in API', description: 'Urgent production hotfix', category: 'work', priority: 'high', completed: false });\n      manager.addTask({ title: 'Study TypeScript', description: 'Read chapters 1-3', category: 'study', priority: 'medium', completed: false });\n      manager.addTask({ title: 'Team Meeting Prep', category: 'work', priority: 'medium', completed: false });\n    });\n\n    it('filters by status: active vs completed', () => {\n      const all = manager.listTasks({ status: 'all' });\n      assert.strictEqual(all.length, 4);\n\n      const active = manager.listTasks({ status: 'active' });\n      assert.strictEqual(active.length, 3);\n      assert.ok(active.every((t) => !t.completed));\n\n      const completed = manager.listTasks({ status: 'completed' });\n      assert.strictEqual(completed.length, 1);\n      assert.strictEqual(completed[0].title, 'Buy Groceries');\n    });\n\n    it('filters by category', () => {\n      const workTasks = manager.listTasks({ category: 'work' });\n      assert.strictEqual(workTasks.length, 2);\n      assert.ok(workTasks.every((t) => t.category === 'work'));\n    });\n\n    it('filters by priority', () => {\n      const highTasks = manager.listTasks({ priority: 'high' });\n      assert.strictEqual(highTasks.length, 1);\n      assert.strictEqual(highTasks[0].title, 'Fix Bug in API');\n    });\n\n    it('searches across title and description (case-insensitive)', () => {\n      const searchTitle = manager.listTasks({ search: 'groceries' });\n      assert.strictEqual(searchTitle.length, 1);\n      assert.strictEqual(searchTitle[0].title, 'Buy Groceries');\n\n      const searchDesc = manager.listTasks({ search: 'hotfix' });\n      assert.strictEqual(searchDesc.length, 1);\n      assert.strictEqual(searchDesc[0].title, 'Fix Bug in API');\n\n      const searchEmpty = manager.listTasks({ search: 'nonexistent keyword' });\n      assert.strictEqual(searchEmpty.length, 0);\n    });\n\n    it('sorts by priority desc/asc', () => {\n      const sortedDesc = manager.listTasks({ sortBy: 'priority', sortOrder: 'desc' });\n      assert.strictEqual(sortedDesc[0].priority, 'high');\n      assert.strictEqual(sortedDesc[sortedDesc.length - 1].priority, 'low');\n\n      const sortedAsc = manager.listTasks({ sortBy: 'priority', sortOrder: 'asc' });\n      assert.strictEqual(sortedAsc[0].priority, 'low');\n      assert.strictEqual(sortedAsc[sortedAsc.length - 1].priority, 'high');\n    });\n\n    it('sorts by title alphabetically', () => {\n      const sorted = manager.listTasks({ sortBy: 'title', sortOrder: 'asc' });\n      assert.strictEqual(sorted[0].title, 'Buy Groceries');\n      assert.strictEqual(sorted[sorted.length - 1].title, 'Team Meeting Prep');\n    });\n  });\n\n  describe('Statistics and Metrics (getStats)', () => {\n    it('returns zeroes when task list is empty', () => {\n      const stats = manager.getStats();\n\n      assert.deepStrictEqual(stats, {\n        total: 0,\n        completed: 0,\n        active: 0,\n        completionRate: 0,\n        byPriority: { low: 0, medium: 0, high: 0 },\n        byCategory: { work: 0, personal: 0, study: 0, general: 0 },\n        overdueCount: 0,\n      });\n    });\n\n    it('computes accurate counts, percentages, and overdue tasks', () => {\n      const pastDate = new Date(Date.now() - 86400000).toISOString(); // 1 day ago\n      const futureDate = new Date(Date.now() + 86400000).toISOString(); // tomorrow\n\n      manager.addTask({ title: 'Task 1', priority: 'high', category: 'work', completed: true });\n      manager.addTask({ title: 'Task 2', priority: 'medium', category: 'personal', completed: false, dueDate: futureDate });\n      manager.addTask({ title: 'Task 3', priority: 'low', category: 'study', completed: false, dueDate: pastDate }); // overdue!\n      manager.addTask({ title: 'Task 4', priority: 'high', category: 'work', completed: true, dueDate: pastDate }); // completed, so not overdue!\n\n      const stats = manager.getStats();\n\n      assert.strictEqual(stats.total, 4);\n      assert.strictEqual(stats.completed, 2);\n      assert.strictEqual(stats.active, 2);\n      assert.strictEqual(stats.completionRate, 50); // 2/4 = 50%\n      assert.strictEqual(stats.overdueCount, 1);\n      assert.deepStrictEqual(stats.byPriority, { low: 1, medium: 1, high: 2 });\n      assert.deepStrictEqual(stats.byCategory, { work: 2, personal: 1, study: 1, general: 0 });\n    });\n  });\n\n  describe('Bulk Operations', () => {\n    let id1, id2, id3;\n\n    beforeEach(() => {\n      id1 = manager.addTask({ title: 'Task A', completed: false }).id;\n      id2 = manager.addTask({ title: 'Task B', completed: false }).id;\n      id3 = manager.addTask({ title: 'Task C', completed: true }).id;\n    });\n\n    it('bulk completes specified tasks', () => {\n      const completedCount = manager.bulkComplete([id1, id2]);\n\n      assert.strictEqual(completedCount, 2);\n      assert.strictEqual(manager.getTask(id1).completed, true);\n      assert.strictEqual(manager.getTask(id2).completed, true);\n      assert.strictEqual(manager.getTask(id3).completed, true);\n\n      // Completing already completed tasks returns 0 changes\n      assert.strictEqual(manager.bulkComplete([id1, id2]), 0);\n    });\n\n    it('bulk deletes specified tasks', () => {\n      const deletedCount = manager.bulkDelete([id1, id3]);\n\n      assert.strictEqual(deletedCount, 2);\n      assert.strictEqual(manager.tasks.length, 1);\n      assert.strictEqual(manager.tasks[0].id, id2);\n    });\n\n    it('clears all completed tasks', () => {\n      manager.bulkComplete([id1]); // Now id1 and id3 are completed\n\n      const removed = manager.clearCompleted();\n      assert.strictEqual(removed, 2);\n      assert.strictEqual(manager.tasks.length, 1);\n      assert.strictEqual(manager.tasks[0].id, id2);\n      assert.strictEqual(manager.getStats().completed, 0);\n    });\n  });\n});",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:52:11.926Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "46787443-9a14-4c1e-893d-feecf79c0ff1",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "fa4b13b5-6ab7-4af1-aec4-5eb83c79afa8",
+      "created_at": "2026-11-19T14:52:13.969Z",
+      "sender": "macOS",
+      "is_cancelled": false
+    },
+    {
+      "id": "680c16ac-2a77-4d0e-bf46-d0651c750259",
+      "role": "user",
+      "content": "/**\n * Storage Abstraction Layer\n * Supports in-memory storage (for tests and headless environments)\n * and LocalStorage (for client-side browser persistence).\n */\n\nexport class MemoryStorageAdapter {\n  constructor(initialData = []) {\n    this.data = Array.isArray(initialData) ? [...initialData] : [];\n  }\n\n  loadTasks() {\n    return JSON.parse(JSON.stringify(this.data));\n  }\n\n  saveTasks(tasks) {\n    if (!Array.isArray(tasks)) {\n      throw new TypeError('Tasks to save must be an array');\n    }\n    this.data = JSON.parse(JSON.stringify(tasks));\n    return true;\n  }\n\n  clear() {\n    this.data = [];\n  }\n}\n\nexport class LocalStorageAdapter {\n  constructor(storageKey = 'taskpulse_tasks') {\n    this.storageKey = storageKey;\n  }\n\n  loadTasks() {\n    if (typeof localStorage === 'undefined') {\n      return [];\n    }\n    try {\n      const raw = localStorage.getItem(this.storageKey);\n      if (!raw) return [];\n      const parsed = JSON.parse(raw);\n      return Array.isArray(parsed) ? parsed : [];\n    } catch (err) {\n      console.warn(`[LocalStorageAdapter] Failed to parse stored tasks, resetting:`, err);\n      return [];\n    }\n  }\n\n  saveTasks(tasks) {\n    if (!Array.isArray(tasks)) {\n      throw new TypeError('Tasks to save must be an array');\n    }\n    if (typeof localStorage === 'undefined') {\n      return false;\n    }\n    try {\n      localStorage.setItem(this.storageKey, JSON.stringify(tasks));\n      return true;\n    } catch (err) {\n      console.error(`[LocalStorageAdapter] Failed to save tasks to localStorage:`, err);\n      return false;\n    }\n  }\n\n  clear() {\n    if (typeof localStorage !== 'undefined') {\n      localStorage.removeItem(this.storageKey);\n    }\n  }",
+      "status": "pending",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": null,
+      "created_at": "2026-11-19T14:53:40.838Z",
+      "sender": "ios",
+      "is_cancelled": false
+    },
+    {
+      "id": "5ef831a7-d18a-43f4-a3fd-609d259ef967",
+      "role": "agent",
+      "content": "error: invalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high\ninvalid model selection (--model \"gpt-oss-120b-medium\" --effort \"high\"): --model gpt-oss-120b-medium conflicts with --effort=high",
+      "status": "error",
+      "model": "gpt-oss-120b-medium",
+      "client_type": "gemini-bridge",
+      "parent_message_id": "680c16ac-2a77-4d0e-bf46-d0651c750259",
+      "created_at": "2026-11-19T14:53:42.550Z",
+      "sender": "macOS",
+      "is_cancelled": false
     }
   ]
 }
